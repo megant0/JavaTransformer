@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Diagnostics;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -23,9 +24,6 @@ namespace JavaTransformer.UI.Main
             DataContext = new MainModelView(
                 name: "Java Transformer Core", 
                 version: "1.0.0");
-
-
-
         }
     }
 }

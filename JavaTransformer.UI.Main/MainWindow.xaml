@@ -4,14 +4,18 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:JavaTransformer.UI.Main"
+        xmlns:ui="clr-namespace:JavaTransformer.Core.UIWidget;assembly=JavaTransformer.Core.UIWidget"
         mc:Ignorable="d"
         Title="Java Transformer UI" Height="450" Width="800">
     <Grid>
-        <StackPanel>
-        <TextBlock 
-            Text="{Binding MachineName}"
-            />
-            <TextBlock Text="{Binding MachineVersion}" />
-        </StackPanel>
+
+        <ui:ModernButton
+            Height="30"
+            Width="70"
+            Background="#121212"
+            Foreground="White"
+            >
+            
+        </ui:ModernButton>
     </Grid>
 </Window>

@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\JavaTransformer.Core.ModelViews\JavaTransformer.Core.ModelViews.csproj" />
+    <ProjectReference Include="..\JavaTransformer.Core.UIWidget\JavaTransformer.Core.UIWidget.csproj" />
   </ItemGroup>
 
 </Project>
