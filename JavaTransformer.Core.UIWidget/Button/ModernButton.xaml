@@ -11,7 +11,7 @@
             BorderBrush="{Binding BorderBrush, ElementName=modernButton}"
             BorderThickness="{Binding BorderThickness, ElementName=modernButton}"
             CornerRadius="{Binding CornerRadius, ElementName=modernButton}"
-            x:Name="CurrentBorder"
+            Name="CurrentBorder"
             >
 
             <TextBlock HorizontalAlignment="Center"

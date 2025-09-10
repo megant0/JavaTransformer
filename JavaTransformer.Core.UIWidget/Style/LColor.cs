@@ -45,6 +45,11 @@ namespace JavaTransformer.Core.UIWidget.Style
         
         }
 
+        public LColor(string hex) : this(ConvertString(hex))
+        {
+
+        }
+
         public LColor(LColor copy)
         {
             r = copy.r;
@@ -216,6 +221,22 @@ namespace JavaTransformer.Core.UIWidget.Style
             return new LColor(r, g, b,a);
         }
 
+
+        public static LColor of(Color color)
+        {
+            return new LColor(color);
+        }
+
+        public static LColor of(string text)
+        {
+            return new LColor(text);
+        } 
+
+        public static LColor of(Brush brush)
+        {
+            return new LColor(brush);
+        }
+
         public const byte MAX_COLOR = byte.MaxValue;
 
         public static Dictionary<string, LColor> Colors = new Dictionary<string, LColor>(StringComparer.OrdinalIgnoreCase)
@@ -269,7 +290,6 @@ namespace JavaTransformer.Core.UIWidget.Style
             {"transparent", new LColor(0, 0, 0, 0) },
             {"semitransparent", new LColor(255, 255, 255, 128) },
             {"goldenrod", new LColor(218, 165, 32, 255) },
-            {"silver", new LColor(192, 192, 192, 255) },
             {"bronze", new LColor(205, 127, 50, 255) },
             {"skyblue", new LColor(135, 206, 235, 255) },
             {"forestgreen", new LColor(34, 139, 34, 255) },

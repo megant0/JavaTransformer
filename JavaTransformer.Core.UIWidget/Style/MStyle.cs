@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -27,6 +28,11 @@ namespace JavaTransformer.Core.UIWidget.Style
         public Thickness Thickness;
         public Thickness HoverThickness;
         public Thickness ClickThickness;
+
+        public MStyle()
+        {
+
+        }
 
         public MStyle(UIElement element) 
         {
@@ -161,6 +167,8 @@ namespace JavaTransformer.Core.UIWidget.Style
 
         public void Dispose()
         {
+            if (_element == null) return;
+
             _element.MouseDown  -= _element_MouseDown;
             _element.MouseEnter -= _element_MouseEnter;
             _element.MouseLeave -= _element_MouseLeave;

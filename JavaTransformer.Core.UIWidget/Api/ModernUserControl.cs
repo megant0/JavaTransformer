@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JavaTransformer.Core.UIWidget.Style;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -18,6 +19,7 @@ namespace JavaTransformer.Core.UIWidget.Api
 
         public static DependencyProperty createProperty<T1, T2>([CallerMemberName] string prop = null, string meta = null)
         => DependencyProperty.Register(prop, typeof(T1), typeof(T2), new PropertyMetadata(meta));
-        
+
+        bool injectStyle(MStyle style);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using JavaTransformer.Core.UIWidget.Api;
+using JavaTransformer.Core.UIWidget.Extensions;
 using JavaTransformer.Core.UIWidget.Style;
 using System;
 using System.Diagnostics;
@@ -8,20 +9,25 @@ using System.Windows.Media.Imaging;
 
 namespace JavaTransformer.Core.UIWidget
 {
-    public partial class ModernButton : UserControl
+    public partial class ModernButton : UserControl, ModernUserControl
     {
         private MStyle currentStyle = null;
 
-        public ModernButton(MStyle style = null)
+        
+        public ModernButton() : this(null) { }
+        public ModernButton(MStyle style)
         {
             InitializeComponent();
             currentStyle = style;
 
-            if(style != null) 
+            if (style != null)
             {
                 currentStyle = new MStyle(this, style);
             }
-            else currentStyle = new MStyle(this);
+            else
+            {
+                currentStyle = new MStyle(this); 
+            }
         }
 
         private void CurrentBorder_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
@@ -37,6 +43,14 @@ namespace JavaTransformer.Core.UIWidget
         private void CurrentBorder_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
          
+        }
+
+        public bool injectStyle(MStyle style)
+        {
+            if (style == null) return false;
+
+            currentStyle = style;
+            return true;
         }
 
         public static readonly DependencyProperty TextProperty = ModernUserControl.createProperty<string, ModernButton>("Text", "Button");

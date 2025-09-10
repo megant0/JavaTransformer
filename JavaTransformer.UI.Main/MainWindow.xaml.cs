@@ -10,6 +10,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using JavaTransformer.Core.ModelViews;
+using JavaTransformer.Core.UIWidget.Style;
 
 namespace JavaTransformer.UI.Main
 {
@@ -24,6 +25,16 @@ namespace JavaTransformer.UI.Main
             DataContext = new MainModelView(
                 name: "Java Transformer Core", 
                 version: "1.0.0");
+
+           
+                MStyle style = new MStyle();
+                style.Background = LColor.of("#121212");
+                style.Foreground = LColor.of("#ffffff");
+                style.HoverBackground = LColor.of("#FF00FF");
+
+                TestButton.injectStyle(new MStyle(TestButton, style));
+
+          
         }
     }
 }

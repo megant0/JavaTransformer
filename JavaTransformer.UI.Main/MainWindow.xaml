@@ -14,6 +14,7 @@
             Width="70"
             Background="#121212"
             Foreground="White"
+            x:Name="TestButton"
             >
             
         </ui:ModernButton>
