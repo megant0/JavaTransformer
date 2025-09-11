@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:JavaTransformer.Core.UIWidget.Widget"
              mc:Ignorable="d"
              Name="modernButton"
+             Foreground="{Binding OtherColor,ElementName=modernButton}"
           
              >
     <Grid>

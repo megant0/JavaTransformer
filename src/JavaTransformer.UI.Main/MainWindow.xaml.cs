@@ -23,7 +23,14 @@ namespace JavaTransformer.UI.Main
                 name: "Java Transformer Core", 
                 version: "1.0.0");
 
-  
+            MouseDown += MainWindow_MouseEnter;
+
+        }
+
+        private void MainWindow_MouseEnter(object sender, MouseEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+                DragMove();
         }
     }
 }

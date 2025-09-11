@@ -13,6 +13,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -43,6 +44,18 @@ namespace JavaTransformer.Core.UIWidget.Widget
         public static DependencyProperty ThicknessProperty
             = ModernUserControl.createProperty<Thickness, ModernButton>("Thickness");
 
+        public static DependencyProperty EnterAnimationProperty 
+            = ModernUserControl.createProperty<float, ModernButton>("EnterAnimation");
+
+        public static DependencyProperty LeaveAnimationProperty
+            = ModernUserControl.createProperty<float, ModernButton>("LeaveAnimation");
+
+        public static DependencyProperty HoverForegroundProperty
+            = ModernUserControl.createProperty<Brush, ModernButton>("HoverForeground");
+       
+        public static DependencyProperty OtherColorProperty
+             = ModernUserControl.createProperty<Brush, ModernButton>("OtherColor");
+
         public void setBackground(LColor color)
         {
             if (color == null) return;
@@ -69,6 +82,31 @@ namespace JavaTransformer.Core.UIWidget.Widget
         }
 
         // CLR properties
+
+        public Brush HoverForeground
+        {
+            get => (Brush)GetValue(HoverForegroundProperty);
+            set => SetValue(HoverForegroundProperty, value);
+        }
+
+        public Brush OtherColor
+        {
+            get => (Brush)GetValue(OtherColorProperty);
+            set => SetValue(OtherColorProperty, value);
+        }
+
+        public float EnterAnimation
+        {
+            get => (float)GetValue(EnterAnimationProperty);
+            set => SetValue(EnterAnimationProperty, value);
+        }
+
+        public float LeaveAnimation
+        {
+            get => (float)GetValue(LeaveAnimationProperty);
+            set => SetValue(LeaveAnimationProperty, value);
+        }
+
 
         public Brush Color
         {
@@ -121,14 +159,56 @@ namespace JavaTransformer.Core.UIWidget.Widget
 
         private void ModernButton_MouseLeave(object sender, MouseEventArgs e)
         {
-            _CurrentBorder.Background = Color;
-            _CurrentBorder.BorderBrush = Border;
+            if (Color is SolidColorBrush colorBrush)
+            {
+                var newBrush = new SolidColorBrush(_CurrentBorder.Background is SolidColorBrush currentBrush
+                    ? currentBrush.Color
+                    : colorBrush.Color);
+
+                _CurrentBorder.Background = newBrush;
+
+                var animation = new ColorAnimation
+                {
+                    To = colorBrush.Color,
+                    Duration = TimeSpan.FromSeconds(LeaveAnimation),
+                    EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut }
+                };
+
+                newBrush.BeginAnimation(SolidColorBrush.ColorProperty, animation);
+            }
+            else
+            {
+                _CurrentBorder.Background = Color;
+            }
+
+            Foreground = OtherColor;
         }
 
         private void ModernButton_MouseEnter(object sender, MouseEventArgs e)
         {
-            _CurrentBorder.Background = Hover;
-            _CurrentBorder.BorderBrush = HoverBorder;
+            if (Hover is SolidColorBrush hoverBrush)
+            {
+                var newBrush = new SolidColorBrush(_CurrentBorder.Background is SolidColorBrush currentBrush
+                    ? currentBrush.Color
+                    : hoverBrush.Color);
+
+                _CurrentBorder.Background = newBrush;
+
+                var animation = new ColorAnimation
+                {
+                    To = hoverBrush.Color,
+                    Duration = TimeSpan.FromSeconds(EnterAnimation),
+                    EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut }
+                };
+
+                newBrush.BeginAnimation(SolidColorBrush.ColorProperty, animation);
+            }
+            else
+            {
+                _CurrentBorder.Background = Hover;
+            }
+
+            Foreground = HoverForeground;
         }
     }
 }
