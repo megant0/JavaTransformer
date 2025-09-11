@@ -25,6 +25,7 @@ namespace JavaTransformer.Core.UIWidget.Style
 
         public static void SetBorderSize(UIElement _control, Thickness _)
         {
+
             if (_control is Control control)
                 control.BorderThickness = _;
             else if (_control is Border border)

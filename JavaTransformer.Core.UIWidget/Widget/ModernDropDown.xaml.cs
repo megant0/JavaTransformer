@@ -1,5 +1,8 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -9,21 +12,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using JavaTransformer.Core.ModelViews;
-using JavaTransformer.Core.UIWidget.Style;
 
-namespace JavaTransformer.UI.Main
+namespace JavaTransformer.Core.UIWidget.Widget
 {
-    public partial class MainWindow
+    public partial class ModernDropDown : UserControl
     {
-        public MainWindow()
+        public ModernDropDown()
         {
             InitializeComponent();
-            DataContext = new MainModelView(
-                name: "Java Transformer Core", 
-                version: "1.0.0");
-
-  
         }
     }
 }

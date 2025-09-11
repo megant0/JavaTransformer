@@ -4,19 +4,26 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:JavaTransformer.UI.Main"
-        xmlns:ui="clr-namespace:JavaTransformer.Core.UIWidget;assembly=JavaTransformer.Core.UIWidget"
+        xmlns:ui ="clr-namespace:JavaTransformer.Core.UIWidget.Widget;assembly=JavaTransformer.Core.UIWidget"
         mc:Ignorable="d"
         Title="Java Transformer UI" Height="450" Width="800">
-    <Grid>
+    <Grid
+        Background="#121212"
+        >
+        <ui:ModernButton Height="40"
+                         Width="100"
+                         Text="hello world!"
+                         Color="Red"
+                         Border="Aqua"
+                         HoverBorder="Red"
+                         Thickness="2"
+                         CornerRadius="15"
+                         Hover="Wheat"
+                         Name="button">
 
-        <ui:ModernButton
-            Height="30"
-            Width="70"
-            Background="#121212"
-            Foreground="White"
-            x:Name="TestButton"
-            >
-            
         </ui:ModernButton>
+
+
+
     </Grid>
 </Window>

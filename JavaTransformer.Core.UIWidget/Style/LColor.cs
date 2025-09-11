@@ -153,6 +153,11 @@ namespace JavaTransformer.Core.UIWidget.Style
             return GetSolidColorBrush(this);
         }
 
+        public override string ToString()
+        {
+            return $"R={r},G={g},B={b},A={a}";
+        }
+
         public static LColor ConvertString(string text)
         {
             string lower = text.ToLower();
@@ -220,6 +225,8 @@ namespace JavaTransformer.Core.UIWidget.Style
 
             return new LColor(r, g, b,a);
         }
+
+
 
 
         public static LColor of(Color color)

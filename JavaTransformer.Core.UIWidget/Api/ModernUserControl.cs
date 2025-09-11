@@ -11,7 +11,7 @@ using System.Windows.Media.Media3D;
 
 namespace JavaTransformer.Core.UIWidget.Api
 {
-    public interface ModernUserControl 
+    public abstract class ModernUserControl : UserControl
     {
         public static DependencyProperty createProperty<T1, T2>([CallerMemberName] string prop = null) 
         => DependencyProperty.Register(prop, typeof(T1), typeof(T2), new PropertyMetadata(null));
@@ -20,6 +20,6 @@ namespace JavaTransformer.Core.UIWidget.Api
         public static DependencyProperty createProperty<T1, T2>([CallerMemberName] string prop = null, string meta = null)
         => DependencyProperty.Register(prop, typeof(T1), typeof(T2), new PropertyMetadata(meta));
 
-        bool injectStyle(MStyle style);
+        public abstract bool injectStyle(MStyle style);
     }
 }

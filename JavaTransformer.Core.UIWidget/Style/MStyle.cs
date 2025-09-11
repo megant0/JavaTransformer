@@ -1,4 +1,6 @@
-﻿using System;
+﻿using JavaTransformer.Core.UIWidget.Api;
+using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.AccessControl;
@@ -29,17 +31,28 @@ namespace JavaTransformer.Core.UIWidget.Style
         public Thickness HoverThickness;
         public Thickness ClickThickness;
 
+        private CustomSetupStyle setupStyleController;
+
         public MStyle()
         {
-
+           
         }
 
-        public MStyle(UIElement element) 
+        public MStyle(UIElement element, CustomSetupStyle custom = null) 
         {
             if (element == null) throw new NullReferenceException("UIElement is null");
             _element = element;
 
+            if (custom != null)
+                setupStyleController = custom;
+            else setupStyleController = new DefaultSetupStyle(element);
+
             Initialize();
+        }
+
+        public void InjectCustomSetupStyle(CustomSetupStyle b)
+        {
+            setupStyleController = b;
         }
 
         public MStyle(UIElement s, MStyle copy)
@@ -84,30 +97,24 @@ namespace JavaTransformer.Core.UIWidget.Style
             _element.MouseLeave += _element_MouseLeave;
         }
 
-        private void setBackground(LColor color)
+        public virtual void setBackground(LColor color)
         {
-            if (color == null) return;
-
-            WConvertor32.SetBrushColor(_element, color);
+            setupStyleController.setBackground(color);
         }
 
-        private void setForeground(LColor color)
+        public virtual void setForeground(LColor color)
         {
-            if (color == null) return;
-
-            WConvertor32.SetOtherColor(_element, color);
+            setupStyleController.setForeground(color);
         }
 
-        private void setThickness(Thickness th)
+        public virtual void setThickness(Thickness th)
         {
-            WConvertor32.SetBorderSize(_element, th);
+            setupStyleController.setThickness(th);
         }
 
-        private void setBorder(LColor color)
+        public virtual void setBorder(LColor color)
         {
-            if (color == null) return;
-
-            WConvertor32.SetBorderColor(_element, color);
+            setupStyleController.setBorder(color);
         }
 
         private void _element_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
