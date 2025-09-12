@@ -60,7 +60,11 @@ int EntryPoint::launch(SST args, char** argv)
         return -11;
     }
 
-    std::string input, outpute, meta, classloader, compilerProgram, dllcompProgram, execompProgram, javaProgram, jdkInput;
+    std::string input, outpute,
+        meta, classloader,
+        compilerProgram, dllcompProgram, 
+        execompProgram, javaProgram, jdkInput,
+        loadMethod, loadClass;
 
     try {
         std::ifstream configFile("config/generate_code.txt");
@@ -85,10 +89,12 @@ int EntryPoint::launch(SST args, char** argv)
                 else if (key == "execomp") execompProgram = value;
                 else if (key == "javacomp") javaProgram = value;
                 else if (key == "jdkInput") jdkInput = value;
-
-
+                else if (key == "loadMethod") loadMethod = value;
+                else if (key == "loadClass") loadClass = value;
             }
         }
+        if (meta.empty() && !loadClass.empty() && !loadMethod.empty()) 
+            meta = loadClass + "[" + loadMethod;
 
         configFile.close();
 
@@ -275,7 +281,7 @@ int EntryPoint::launch(SST args, char** argv)
         String javaw = jdkInput + "\\bin\\javaw.exe";
         auto file_size = std::filesystem::file_size(outputFile);
 
-        if (file_size > 500) {
+        if (file_size > 500 * 1024) {
             CrashLog::Create("Отказано в доступе.\nПодозрение на рекурсию.");
             return 0x0005;
         }
