@@ -7,6 +7,14 @@
 
     #include "base.h"
 
+String getShortPath(const String& longPath) {
+    char shortPath[MAX_PATH];
+    if (GetShortPathNameA(longPath.c_str(), shortPath, MAX_PATH) > 0) {
+        return String(shortPath);
+    }
+    return longPath; // fallback
+}
+
 void appendToFile(const std::string& filename, const std::string& text) {
     std::ifstream inFile(filename);
     std::string content((std::istreambuf_iterator<char>(inFile)), std::istreambuf_iterator<char>());

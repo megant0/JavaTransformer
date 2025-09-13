@@ -4,6 +4,15 @@
 #include <vector>
 #include <filesystem>
 
+static bool _debug_meta_header;
+static bool _debug_define_header;
+
+bool hasArgument(int* argc, char** argv, const char* text) {
+    for (int i = 0; i < *argc; i++)
+        if (strcmp(argv[i], text) == 0) return true;
+
+    return false;
+}
 
 void v1(std::ofstream& output, const std::vector<unsigned char>& data) {
     const int bytesPerLine = 12;
@@ -25,16 +34,22 @@ void v1(std::ofstream& output, const std::vector<unsigned char>& data) {
 }
 
 int main(int argc, char* argv[]) {
-    if (argc != 3) {
+    if (argc < 3) {
         std::cout << "use: \"hex.exe INPUT.FILE OUTPUT.C\"\n";
         return 3;
     }
 
-    try {
-        auto file_size = std::filesystem::file_size(argv[1]);
+    _debug_meta_header = hasArgument(&argc, argv, "--debug-header_comment");
+    _debug_define_header = hasArgument(&argc, argv, "--debug-header_define");
 
-        std::ifstream input(argv[1], std::ios::binary);
-        std::ofstream output(argv[2]);
+    try {
+        std::string file_path = argv[1];
+        std::string output_path = argv[2];
+
+        auto file_size = std::filesystem::file_size(file_path);
+
+        std::ifstream input(file_path, std::ios::binary);
+        std::ofstream output(output_path);
 
         if (!input || !output) {
             return 2;
@@ -46,8 +61,20 @@ int main(int argc, char* argv[]) {
         output << "/* StartOffset(h): 00000000, EndOffset(h): "
             << std::uppercase << std::hex << std::setw(8) << std::setfill('0') << (file_size - 1)
             << ", Size(h): " << std::setw(8) << file_size << " */\n\n";
+        
+        if (_debug_meta_header) {
+            output << "/* --debug-meta: " << '\n';
+            output << "input file=" << file_path << '\n';
+            output << "output file=" << output_path << '\n';
+            output << "*/" << '\n';
+        }
+        if (_debug_define_header) {
+            output << "#define _HEX_DUMP_INPUT_FILE " << '"' << file_path << '"' << '\n';
+            output << "#define _HEX_DUMP_OUTPUT_FILE " << '"' << output_path << '"' << '\n';
+        }
 
         v1(output, buffer);
+
 
         input.close();
         output.close();

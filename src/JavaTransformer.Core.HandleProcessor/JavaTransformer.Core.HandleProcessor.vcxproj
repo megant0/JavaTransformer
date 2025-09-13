@@ -20,19 +20,23 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="base.h" />
+    <ClInclude Include="common\parse_value.h" />
     <ClInclude Include="compiler.h" />
     <ClInclude Include="Crashlog.h" />
     <ClInclude Include="entrypoint.h" />
     <ClInclude Include="lib.h" />
+    <ClInclude Include="parsing_config.h" />
     <ClInclude Include="wfile.hpp" />
     <ClInclude Include="winapi.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="common\parse_value.cpp" />
     <ClCompile Include="compiler.cpp" />
     <ClCompile Include="Crashlog.cpp" />
     <ClCompile Include="entrypoint.cpp" />
     <ClCompile Include="lib.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="parsing_config.cpp" />
     <ClCompile Include="winapi.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

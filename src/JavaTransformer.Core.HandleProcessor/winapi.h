@@ -1,9 +1,3 @@
-/*
-WINAPI.H
-
-
-*/
-
 #ifndef _WIN_API_H_
 #define _WIN_API_H_
 
