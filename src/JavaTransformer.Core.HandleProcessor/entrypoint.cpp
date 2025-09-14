@@ -16,6 +16,8 @@
 
 namespace fs = std::filesystem;
 static bool _debug = false;
+static bool _compile_header = false;
+
 #pragma region debug
 
     #define WRITE_DEB(str) \
@@ -130,9 +132,11 @@ std::string extractArgument(int argc, char** argv, const std::string& line) {
 
 int EntryPoint::launch(SST args, char** argv)
 {
-    WRITE_DEB("launch...");
     _debug = hasArgument(args.size, argv, "--debug");
+    _compile_header = hasArgument(args.size, argv, "--header");
 
+    WRITE_DEB("launch...");
+    
     setlocale(LC_ALL, "Ru");
     int argc = args.size;
 
@@ -285,8 +289,8 @@ int EntryPoint::launch(SST args, char** argv)
     auto ldr = lib.getData("ldr");
     auto jvm = lib.getData("jvm");
 
-    String outpute_dll = WCONVERT_STRING(outpute) + ".dll";
-    String outpute_exe = WCONVERT_STRING(outpute) + ".exe";
+    String outpute_dll = WCONVERT_STRING(outpute);
+    String outpute_exe = WCONVERT_STRING(outpute);
     String pathToLastHex = includes_folder + "/last-hex.hex.h";
 
     WRITE_DEB("compiling...");
@@ -302,6 +306,7 @@ int EntryPoint::launch(SST args, char** argv)
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
 
     WRITE_DEB2("success hex program! Time:", std::to_string(duration.count()) + "ms");
+    
     if (mode == Mode::DLL)
     {
         WRITE_DEB("DLL");
@@ -312,7 +317,6 @@ int EntryPoint::launch(SST args, char** argv)
         else pathToHeader = dllcompProgram + std::string("\\header.h");
 
      
-
 
         String start_1 = "#pragma once\n";
 
@@ -341,6 +345,12 @@ int EntryPoint::launch(SST args, char** argv)
         clearFile(pathToHeader);
         appendToFile(pathToHeader, generated);
 
+        if (_compile_header) 
+        {
+            WRITE_DEB("compile header.");
+            return 0;
+        }
+
         String libFolder;
         if (dllcompProgram == PROGRAM_DEFAULT)
             libFolder = lib.path("dll");
@@ -366,6 +376,12 @@ int EntryPoint::launch(SST args, char** argv)
         String generated2 = start_11 + "\n" + start_22;
         clearFile(pathToHeaderExe);
         appendToFile(pathToHeaderExe, generated2);
+       
+        if (_compile_header)
+        {
+            WRITE_DEB("compile header.");
+            return 0;
+        }
 
         String libFolder;
         if (execompProgram == PROGRAM_DEFAULT)
@@ -388,6 +404,12 @@ int EntryPoint::launch(SST args, char** argv)
         String generated2 = start_11 + "\n" + start_22;
         clearFile(pathToHeaderExe);
         appendToFile(pathToHeaderExe, generated2);
+       
+        if (_compile_header)
+        {
+            WRITE_DEB("compile header.");
+            return 0;
+        }
 
         String libFolder;
         if (javaProgram == PROGRAM_DEFAULT)

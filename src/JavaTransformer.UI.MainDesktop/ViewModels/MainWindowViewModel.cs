@@ -1,8 +1,14 @@
-﻿namespace JavaTransformer.UI.MainDesktop.ViewModels
+﻿using System.Collections.ObjectModel;
+
+namespace JavaTransformer.UI.MainDesktop.ViewModels
 {
     public partial class MainWindowViewModel : ViewModelBase
     {
-        public string Greeting { get; } = "Welcome to Avalonia!";
+        public ObservableCollection<WidgetViewModel> Widgets { get; } = new ObservableCollection<WidgetViewModel>();
+        public MainWindowViewModel()
+        {
+
+        }
 
         public string MenuItemHeaderView { get; } = "Вид";
 
@@ -10,7 +16,7 @@
         public string MenuItemHeaderFile_Save { get; } = "Сохранить";
 
         public string MenuItemHeaderBuild { get; } = "Сборка";
-        public string MenuItemHeaderBuild_Launch { get; } = "Запуск";
+        public string MenuItemHeaderBuild_Launch { get;  } = "Запуск";
 
     }
 }

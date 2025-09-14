@@ -1,5 +1,6 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:AvaloniaEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
              x:Class="JavaTransformer.UI.MainDesktop.App"
              xmlns:local="using:JavaTransformer.UI.MainDesktop"
              RequestedThemeVariant="Default">
@@ -11,5 +12,10 @@
   
     <Application.Styles>
         <FluentTheme />
-    </Application.Styles>
+		   <StyleInclude Source="avares://AvaloniaEdit/Themes/Fluent/AvaloniaEdit.xaml" />
+		<StyleInclude Source="avares://AvaloniaEdit/Themes/Fluent/AvaloniaEdit.xaml" />
+
+
+		
+	</Application.Styles>
 </Application>

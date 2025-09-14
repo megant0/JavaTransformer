@@ -3,12 +3,14 @@
         xmlns:vm="using:JavaTransformer.UI.MainDesktop.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        xmlns:AvaloniaEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
+		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="JavaTransformer.UI.MainDesktop.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
         Title="JavaTransformer.UI.MainDesktop"
-		Background="#121212"
+		Background="#1d1d1d"
+		
 		>
 
     <Design.DataContext>
@@ -17,7 +19,7 @@
 
 	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="30"/>
+			<RowDefinition Height="35"/>
 			<RowDefinition Height="*"/>
 		</Grid.RowDefinitions>
 
@@ -26,7 +28,7 @@
 			>
 			<Menu Background="Transparent" Foreground="White"
 				  HorizontalAlignment="Left"
-				  Margin="25"
+				  Margin="15"
 				  >
 				<MenuItem Header="{Binding MenuItemHeaderFile}" Foreground="White"
 						  IsTabStop="False" Focusable="False"
@@ -50,6 +52,21 @@
 					</MenuItem>
 				</MenuItem>
 			</Menu>
+		</Grid>
+		<Grid
+			Grid.Row="1"
+			Background="#1d1d1d"
+			>
+
+			<AvaloniaEdit:TextEditor
+				Margin="25,35,25,25"
+				ShowLineNumbers="True"
+				Background="#2d2d2d"
+				x:Name="_textEditor"
+				>
+				
+			</AvaloniaEdit:TextEditor>
+			
 		</Grid>
 	</Grid>
     
