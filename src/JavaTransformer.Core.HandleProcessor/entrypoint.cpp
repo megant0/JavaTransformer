@@ -151,7 +151,7 @@ int EntryPoint::launch(SST args, char** argv)
     }
     case Mode::NONE: {
         std::cerr << "Error args mode use: [dll|exe|jvm|krn]" << std::endl;
-        return 105;
+        return 104;
     }
     default:
         break;
@@ -159,14 +159,38 @@ int EntryPoint::launch(SST args, char** argv)
 
     WRITE_DEB("parsing config path...");
 
-    std::string config_path = "";
+    std::string libraries_path = "";
+    std::string includes_folder = "";
+    std::string  crash_log_path = "";
+    std::string     config_path = "";
+    
     config_path = extractArgument(argc, argv, "config");
+    libraries_path = extractArgument(argc, argv, "--libraries");
+    crash_log_path = extractArgument(argc, argv, "--crashLog");
+    includes_folder = extractArgument(argc, argv, "--includes");
+
+    if (libraries_path.empty()) {
+        libraries_path = "libraries";
+        WRITE_DEB("not found libraries path!");
+    }
     if (config_path.empty()) {
         config_path = "config/generate_code.txt";
         WRITE_DEB("not found config path!");
-        
     }
-    WRITE_DEB2("config path = ", config_path);
+    if (crash_log_path.empty()) {
+        crash_log_path = "crashlog.txt";
+        WRITE_DEB("not found crashlog path!");
+    }
+    if (includes_folder.empty()) {
+        includes_folder = "includes";
+        WRITE_DEB("not found includes path!");
+    }
+
+    WRITE_DEB2("config path    = ", config_path);
+    WRITE_DEB2("libraries path = ", libraries_path);
+    WRITE_DEB2("crash-log path = ", crash_log_path);
+    WRITE_DEB2("includes path  = ", includes_folder);
+
     std::string input, outpute,
         meta, classloader,
         compilerProgram, dllcompProgram,
@@ -184,7 +208,7 @@ int EntryPoint::launch(SST args, char** argv)
 
         std::vector<String> config_keys = {
             "input", "output", "meta", "classloader", "compiler",
-            "dllcomp", "execomp", "javacomp", "jdkInput", "loadMethod", "loadClass"
+            "dllcomp", "execomp", "javacomp", "jdkInput", "loadMethod", "loadClass", "crashPath"
         };
 
         auto config_values = parsing_confing::parse_configs(std::move(configFile), config_keys, '=');
@@ -232,7 +256,7 @@ int EntryPoint::launch(SST args, char** argv)
     }
     WRITE_DEB("success parsing config params!");
 
-    libraries lib;
+    libraries lib(libraries_path);
 
     WRITE_DEB("create libraries");
     auto libNames = { "hx", "dll", "ldr", "jvm" };
@@ -250,7 +274,7 @@ int EntryPoint::launch(SST args, char** argv)
 
         WRITE_DEB2("  - check stack: ", entry.action);
         if (!entry.state) {
-            CrashLog::Create(entry.action);
+            CrashLog::Create(crash_log_path, entry.action);
             return -15;
         }
     }
@@ -263,10 +287,21 @@ int EntryPoint::launch(SST args, char** argv)
 
     String outpute_dll = WCONVERT_STRING(outpute) + ".dll";
     String outpute_exe = WCONVERT_STRING(outpute) + ".exe";
-    String pathToLastHex = "includes/last.txt";
+    String pathToLastHex = includes_folder + "/last-hex.hex.h";
 
     WRITE_DEB("compiling...");
 
+  WRITE_DEB("launch hex program...");
+
+    auto start = std::chrono::high_resolution_clock::now();
+
+    WRITE_DEB2("create cmd line launch hex.exe = ", WCONVERT_STRING(input) + " " + includes_folder + WCONVERT_STRING("\\last-hex.hex.h"))
+        winapi::bat(winapi::fix(hex.fastExe), WCONVERT_STRING(input) + " " + includes_folder + WCONVERT_STRING("\\last-hex.hex.h"));
+
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+
+    WRITE_DEB2("success hex program! Time:", std::to_string(duration.count()) + "ms");
     if (mode == Mode::DLL)
     {
         WRITE_DEB("DLL");
@@ -276,16 +311,7 @@ int EntryPoint::launch(SST args, char** argv)
             pathToHeader = dll.fastExe;
         else pathToHeader = dllcompProgram + std::string("\\header.h");
 
-        WRITE_DEB("launch hex program...");
-
-        auto start = std::chrono::high_resolution_clock::now();
-
-        winapi::bat(winapi::fix(hex.fastExe), WCONVERT_STRING(input) + WCONVERT_STRING(" includes/last.txt"));
-
-        auto end = std::chrono::high_resolution_clock::now();
-        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-
-        WRITE_DEB2("success hex program! Time:", std::to_string(duration.count()) + "ms");
+     
 
 
         String start_1 = "#pragma once\n";
@@ -324,7 +350,7 @@ int EntryPoint::launch(SST args, char** argv)
 
         WRITE_DEB("handle compiling...");
 
-        return handle_compile_mode("DLL", compilerProgram, libFolder, pathToHeader, outpute_dll, true, "-L/includes -ljvm");
+        return handle_compile_mode("DLL", compilerProgram, libFolder, pathToHeader, outpute_dll, true, "-L/" + includes_folder + " -ljvm");
     }
     else if (mode == Mode::EXE)
     {
@@ -333,8 +359,6 @@ int EntryPoint::launch(SST args, char** argv)
         if (execompProgram == PROGRAM_DEFAULT)
             pathToHeaderExe = ldr.fastExe;
         else pathToHeaderExe = execompProgram + std::string("\\header.h");
-
-        winapi::bat(winapi::fix(hex.fastExe), outpute_dll + WCONVERT_STRING(" includes/last.txt"));
 
         String start_11 = "#pragma once\n/*GENERATED HEADER FILE*/\t";
         auto start_22 = readFile(pathToLastHex);
@@ -358,8 +382,6 @@ int EntryPoint::launch(SST args, char** argv)
             pathToHeaderExe = jvm.fastExe;
         else pathToHeaderExe = javaProgram + std::string("\\header.h");
 
-        winapi::bat(winapi::fix(hex.fastExe), outpute_dll + WCONVERT_STRING(" includes/last.txt"));
-
         String start_11 = "#pragma once\n/*GENERATED HEADER FILE*/\t";
         auto start_22 = readFile(pathToLastHex);
 
@@ -379,7 +401,7 @@ int EntryPoint::launch(SST args, char** argv)
         try {
             auto file_size = std::filesystem::file_size(outputFile);
             if (file_size > 500 * 1024) {
-                CrashLog::Create("Access denied.\nSuspected recursion.");
+                CrashLog::Create(crash_log_path, "Access denied.\nSuspected recursion.");
                 return 0x0005;
             }
         }

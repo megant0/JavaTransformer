@@ -3,11 +3,11 @@
 #include <filesystem>
 #include <iostream>
 
-void CrashLog::Create(String _)
+void CrashLog::Create(String path, String _)
 {
     std::cout << "created crash log...\n";
     std::ofstream out;          
-    out.open("crashlog.txt");      
+    out.open(path);      
     if (out.is_open())
     {
         out << "------ Crash Log -------\n\n\n" << std::endl;

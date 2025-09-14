@@ -7,8 +7,14 @@
 arhive<LIBData> datas;
 arhive<StackTrace> stack;
 namespace fs = std::filesystem;
+String libFolder = "libraries";
 
-bool libraries::registry(const literal& name) 
+libraries::libraries(String _libFolder)
+{
+    libFolder = _libFolder;
+}
+
+bool libraries::registry(const literal& name)
 {
     LIBData data;
     data.name = name;

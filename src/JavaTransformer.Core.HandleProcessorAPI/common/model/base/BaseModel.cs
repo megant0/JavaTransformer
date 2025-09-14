@@ -1,6 +1,7 @@
 ﻿using JavaTransformer.Core.HandleProcessorAPI.api;
+using JavaTransformer.Core.HandleProcessorAPI.common.Components;
 
-namespace JavaTransformer.Core.HandleProcessorAPI.common.model
+namespace JavaTransformer.Core.HandleProcessorAPI.common.model.@base
 {
     public abstract class BaseModel : ISerializeConfig
     {

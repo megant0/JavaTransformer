@@ -1,4 +1,6 @@
 ﻿using JavaTransformer.Core.HandleProcessorAPI.api;
+using JavaTransformer.Core.HandleProcessorAPI.common.Components;
+using JavaTransformer.Core.HandleProcessorAPI.common.model.@base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,13 +10,15 @@ using System.Threading.Tasks;
 
 namespace JavaTransformer.Core.HandleProcessorAPI.common.model
 {
-    public class BuildJvmConfig : BaseModel
+    public class BuildJvmModel : BaseModel
     {
         /**
          * в конструкторе проходит валидация, которая кидает исключение
          * смотрите: JavaTransformer.Core.HandleProcessorAPI.common.JdkInput
          */
         public JdkInput JdkInput { get; set; }
+
+        public BuildJvmModel() { }
 
         /**
          * при использование BuildJvmConfig:
@@ -26,7 +30,7 @@ namespace JavaTransformer.Core.HandleProcessorAPI.common.model
          * но если он будет = "", будет ошибка,
          * можно указать = "-".
          */
-        public BuildJvmConfig(InputOutput iO, JdkInput jdk) 
+        public BuildJvmModel(InputOutput iO, JdkInput jdk) 
         {
             IO = iO;
             JdkInput = jdk;

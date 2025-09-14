@@ -1,4 +1,7 @@
 ﻿using JavaTransformer.Core.HandleProcessorAPI.api;
+using JavaTransformer.Core.HandleProcessorAPI.common.Components;
+using JavaTransformer.Core.HandleProcessorAPI.common.Components.JavaTransformer.Core.Reflection.Loaders;
+using JavaTransformer.Core.HandleProcessorAPI.common.model.@base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,19 +10,21 @@ using System.Threading.Tasks;
 
 namespace JavaTransformer.Core.HandleProcessorAPI.common.model
 {
-    public class BuildDllConfig : BaseModel
+    public class BuildDllModel : BaseModel
     {
         public ClassLoader ClassLoader { get; set; }
         public MethodReference MethodReference { get; set; }
 
-        public BuildDllConfig(InputOutput iO, ClassLoader classLoader, string @class, string method)
+        public BuildDllModel() { }
+
+        public BuildDllModel(InputOutput iO, ClassLoader classLoader, string @class, string method)
         {
             IO = iO;
             ClassLoader = classLoader;
             MethodReference = new MethodReference(@class, method);
         }
 
-        public BuildDllConfig(InputOutput iO, ClassLoader classLoader, MethodReference methodReference)
+        public BuildDllModel(InputOutput iO, ClassLoader classLoader, MethodReference methodReference)
         {
             IO = iO;
             ClassLoader = classLoader;

@@ -1,4 +1,4 @@
-﻿using JavaTransformer.Core.HandleProcessorAPI.common;
+﻿using JavaTransformer.Core.HandleProcessorAPI.common.Config;
 using System;
 using System.Collections.Generic;
 using System.Linq;

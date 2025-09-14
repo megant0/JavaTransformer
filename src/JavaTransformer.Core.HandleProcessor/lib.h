@@ -4,7 +4,6 @@
 // base.h
 	 #include "base.h"
 
-const literal libFolder = "libraries";
 
 #define NONE_FAST_EXE "NONE";
 
@@ -27,6 +26,8 @@ static const LIBData libnull{ "", "", "" };
 class libraries 
 {
 public:
+	libraries(String _libFolder);
+
 	bool					registry(const literal& name);
 	bool					registryFastExe(const literal& name, const literal& fsExe);
 

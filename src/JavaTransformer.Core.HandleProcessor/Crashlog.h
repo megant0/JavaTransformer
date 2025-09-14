@@ -7,7 +7,7 @@
 
 class CrashLog {
 public:
-	static void Create(String _);
+	static void Create(String path, String _);
 };
 
 #endif // !_CRASH_LOG_H_

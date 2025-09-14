@@ -1,4 +1,6 @@
-﻿using System;
+﻿using JavaTransformer.Core.HandleProcessorAPI.common.Components;
+using JavaTransformer.Core.HandleProcessorAPI.common.model.@base;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace JavaTransformer.Core.HandleProcessorAPI.common.model
 {
-    public class BuildExeConfig : BaseModel
+    public class BuildExeModel : BaseModel
     {
-        
-        public BuildExeConfig(InputOutput io) 
+        public BuildExeModel() { }
+        public BuildExeModel(InputOutput io) 
         {
             IO = io;
         }

@@ -1,4 +1,6 @@
-﻿using JavaTransformer.Core.HandleProcessorAPI.common.model;
+﻿using JavaTransformer.Core.HandleProcessorAPI.common.builds.Applications;
+using JavaTransformer.Core.HandleProcessorAPI.common.Config;
+using JavaTransformer.Core.HandleProcessorAPI.common.model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,16 +9,9 @@ using System.Threading.Tasks;
 
 namespace JavaTransformer.Core.HandleProcessorAPI.common.builds
 {
-    public class BuildJVMApplication : SimpleApplication
+    public class BuildJVMApplication : ApplicationLauncher
     {
-        public BuildJVMApplication(BuildJvmConfig model) : base(model, "jvm")
-        {
-
-        }
-
-        public override void Build()
-        {
-            base.Build();
-        }
+        public BuildJVMApplication(BuildJvmModel model) : this(model, LaunchConfiguration.Default) { }
+        public BuildJVMApplication(BuildJvmModel model, LaunchConfiguration cfg) : base(model, cfg, "jvm") { }
     }
 }

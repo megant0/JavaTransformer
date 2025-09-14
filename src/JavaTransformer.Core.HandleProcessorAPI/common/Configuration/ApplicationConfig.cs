@@ -4,10 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JavaTransformer.Core.HandleProcessorAPI.common
+namespace JavaTransformer.Core.HandleProcessorAPI.common.Config
 {
     public class ApplicationConfig : IAppConfig
     {
@@ -16,9 +17,9 @@ namespace JavaTransformer.Core.HandleProcessorAPI.common
 
         private List<string> lines;
 
-        public ApplicationConfig() 
+        public ApplicationConfig(string _path) 
         {
-            path = "config/generate_code.txt";
+            path = _path;
             lines = new List<string>();
         }
 
@@ -69,11 +70,10 @@ namespace JavaTransformer.Core.HandleProcessorAPI.common
 
         public void Save()
         {
-            if(!Directory.Exists("config"))
-                Directory.CreateDirectory("config");
-
             ConfigChange?.Invoke(this, new EventArgs());
-            File.WriteAllLines(path, GetLines());
+
+            bool _ = ExceptionInvoker.Invoke<Exception>(()=> { FileCreator.Create(path, GetLines()); }, out var error);
+            if (!_) throw new IOException($"Error write config file: {error?.Message}");
         }
 
         public string[] GetLines()
