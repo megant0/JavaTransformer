@@ -3,6 +3,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
+using JavaTransformer.UI.MainDesktop.Models;
 using JavaTransformer.UI.MainDesktop.ViewModels;
 using JavaTransformer.UI.MainDesktop.Views;
 using System.Linq;
@@ -14,6 +15,8 @@ namespace JavaTransformer.UI.MainDesktop
         public override void Initialize()
         {
             AvaloniaXamlLoader.Load(this);
+
+            ServiceLocator.Initialize();
         }
 
         public override void OnFrameworkInitializationCompleted()
@@ -25,7 +28,7 @@ namespace JavaTransformer.UI.MainDesktop
                 DisableAvaloniaDataAnnotationValidation();
                 desktop.MainWindow = new MainWindow
                 {
-                    DataContext = new MainWindowViewModel(),
+                    DataContext = ServiceLocator.GetService<MainWindowViewModel>(),
                 };
             }
 

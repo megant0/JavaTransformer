@@ -11,6 +11,7 @@ namespace JavaTransformer.Core.HandleProcessorAPI.common.Config
     {
         public bool DebugMode { get; set; } = false;
         public bool AlwaysShowOutput { get; set; } = false;
+        public HeaderCompilerOption HeaderCompiler { get; set; } = HeaderCompilerOption.Default;
 
         public LibrariesOption Libraries { get; set; } = LibrariesOption.Default;
         public CrashLogOption CrashLog { get; set; } = CrashLogOption.Default;

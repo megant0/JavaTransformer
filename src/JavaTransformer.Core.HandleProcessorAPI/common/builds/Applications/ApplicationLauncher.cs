@@ -8,6 +8,7 @@ namespace JavaTransformer.Core.HandleProcessorAPI.common.builds.Applications
     public class ApplicationLauncher : SimpleApplication
     {
         private readonly LaunchConfiguration _launchConfig;
+        public string CommandLine => BuildCommandLineArguments();
 
         public ApplicationLauncher(BaseModel model, LaunchConfiguration launchConfig, string applicationType)
             : base(model, applicationType)
@@ -51,7 +52,8 @@ namespace JavaTransformer.Core.HandleProcessorAPI.common.builds.Applications
                    $"{GetDebugFlag(_launchConfig.DebugMode)} " +
                    $"{_launchConfig.CrashLog.SerializeConfig()} " +
                    $"{_launchConfig.Libraries.SerializeConfig()} " +
-                   $"{_launchConfig.Includes.SerializeConfig()}";
+                   $"{_launchConfig.Includes.SerializeConfig()} " +
+                   $"{_launchConfig.HeaderCompiler.SerializeConfig()}";
         }
 
         public override void Build()
@@ -62,6 +64,7 @@ namespace JavaTransformer.Core.HandleProcessorAPI.common.builds.Applications
             HandlerLogs(executionResult);
         }
 
+      
         public virtual LaunchConfiguration GetLaunchConfiguration() => _launchConfig;
     }
 }

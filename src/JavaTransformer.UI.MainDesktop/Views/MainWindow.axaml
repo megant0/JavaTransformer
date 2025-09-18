@@ -3,71 +3,62 @@
         xmlns:vm="using:JavaTransformer.UI.MainDesktop.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:AvaloniaEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
-		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="JavaTransformer.UI.MainDesktop.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
         Title="JavaTransformer.UI.MainDesktop"
-		Background="#1d1d1d"
-		
+		Background="{DynamicResource WindowBackground}"
 		>
 
     <Design.DataContext>
-       <vm:MainWindowViewModel/>
+        <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-	<Grid>
+	<Grid
+		Margin="5"
+		x:Name="_mainGrid"
+		>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="35"/>
+			<RowDefinition Height="30"/>
 			<RowDefinition Height="*"/>
 		</Grid.RowDefinitions>
 
 		<Grid
-			x:Name="headerGrid"
+			x:Name="_headerGrid"
 			>
-			<Menu Background="Transparent" Foreground="White"
-				  HorizontalAlignment="Left"
-				  Margin="15"
-				  >
-				<MenuItem Header="{Binding MenuItemHeaderFile}" Foreground="White"
-						  IsTabStop="False" Focusable="False"
-						  >
-					<MenuItem
-					Header="{Binding MenuItemHeaderFile_Save}"
-					Foreground="White"
-						>
+			<Menu
+				Margin="6"
+				Background="Transparent"
+				x:Name="_headerMenu"
+				>
+				<MenuItem Header="Файл">
+					<MenuItem Header="Проект">
+						<MenuItem Header="Создать новый"/>
+						<MenuItem Header="Открыть существующий"/>
+					</MenuItem>
+				</MenuItem>
 
-					</MenuItem>
+				<MenuItem Header="Вид">
+					<MenuItem Header="Насторойки"/>
 				</MenuItem>
-				<MenuItem Header="{Binding MenuItemHeaderView}" Foreground="White"
-						  IsTabStop="False" Focusable="False">
-				</MenuItem>
-				<MenuItem Header="{Binding MenuItemHeaderBuild}" Foreground="White"
-						  IsTabStop="False" Focusable="False">
-					<MenuItem
-						Header="{Binding MenuItemHeaderBuild_Launch}"
-						Foreground="White"
-						>
-					</MenuItem>
+				<MenuItem Header="Сборка">
+					<MenuItem Header="Собрать решение"/>
+					<MenuItem Header="Настроить сборку"/>
 				</MenuItem>
 			</Menu>
 		</Grid>
-		<Grid
-			Grid.Row="1"
-			Background="#1d1d1d"
-			>
 
-			<AvaloniaEdit:TextEditor
-				Margin="25,35,25,25"
-				ShowLineNumbers="True"
-				Background="#2d2d2d"
-				x:Name="_textEditor"
+		<Border
+			Margin="8,7,8,8"
+			Grid.Row="1"
+			CornerRadius="5"
+			>
+			<ContentControl
+				Content="{Binding CurrentPage}"
 				>
 				
-			</AvaloniaEdit:TextEditor>
-			
-		</Grid>
+			</ContentControl>
+		</Border>
 	</Grid>
-    
 </Window>

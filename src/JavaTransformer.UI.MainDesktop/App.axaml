@@ -1,21 +1,21 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:AvaloniaEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
              x:Class="JavaTransformer.UI.MainDesktop.App"
-             xmlns:local="using:JavaTransformer.UI.MainDesktop"
-             RequestedThemeVariant="Default">
-             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
-
-    <Application.DataTemplates>
-        <local:ViewLocator/>
-    </Application.DataTemplates>
-  
+             RequestedThemeVariant="Default"
+			 xmlns:AvaloniaEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
+			 >
+             
     <Application.Styles>
         <FluentTheme />
-		   <StyleInclude Source="avares://AvaloniaEdit/Themes/Fluent/AvaloniaEdit.xaml" />
 		<StyleInclude Source="avares://AvaloniaEdit/Themes/Fluent/AvaloniaEdit.xaml" />
+		<StyleInclude Source="avares://AvaloniaEdit/Themes/Fluent/AvaloniaEdit.xaml" />
+		<Style Selector="MenuItem">
+			<Setter Property="Foreground" Value="{DynamicResource TextMain}"/>
+		</Style>
+    </Application.Styles>
 
-
-		
-	</Application.Styles>
+	<Application.Resources>
+		<SolidColorBrush x:Key="WindowBackground" >#181818</SolidColorBrush>
+		<SolidColorBrush x:Key="TextMain">#FFFFF0</SolidColorBrush>
+	</Application.Resources>
 </Application>

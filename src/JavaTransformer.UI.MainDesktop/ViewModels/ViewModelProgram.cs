@@ -1,9 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System;
 
 namespace JavaTransformer.UI.MainDesktop.ViewModels
 {
-    public class ViewModelBase : ObservableObject
+    public class ViewModelProgram : ObservableObject
     {
-
+      
     }
 }

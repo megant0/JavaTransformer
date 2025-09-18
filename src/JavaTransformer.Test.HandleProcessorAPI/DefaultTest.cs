@@ -3,6 +3,7 @@ using JavaTransformer.Core.HandleProcessorAPI.common.builds;
 using JavaTransformer.Core.HandleProcessorAPI.common.Components;
 using JavaTransformer.Core.HandleProcessorAPI.common.Components.JavaTransformer.Core.Reflection.Loaders;
 using JavaTransformer.Core.HandleProcessorAPI.common.Config;
+using JavaTransformer.Core.HandleProcessorAPI.common.Configuration.Components.Options;
 using JavaTransformer.Core.HandleProcessorAPI.common.model;
 
 using System.Diagnostics;
@@ -149,6 +150,56 @@ namespace JavaTransformer.Test.HandleProcessorAPI
             Assert.That(File.Exists("test/output/6/bin/javaw.exe"), Is.True);
         }
 
+        #endregion
+        #region Header
+
+        [Test]
+        public void BuildDllApplicationHeaderTest()
+        {
+            BuildDllModel model = new BuildDllModel();
+            model.IO = new InputOutput("test/input/1", "test/output/11");
+            model.Template = new TemplateCompilation("test/output/dll1");
+            model.MethodReference = new MethodReference("test/test2", "test");
+            model.ClassLoader = ClassLoader.UniqueClassLoader;
+
+            LaunchConfiguration launch = new LaunchConfiguration();
+            launch.AlwaysShowOutput = true;
+            launch.DebugMode = true;
+
+            launch.HeaderCompiler = HeaderCompilerOption.On;
+            launch.CrashLog = new CrashLogOption("test/crash/last-crash.txt");
+
+            BuildDLLApplication application = new BuildDLLApplication(model, launch);
+            application.Context.SetPathHandler("test/tools/JavaTransformer.Core.HandleProcessor.exe");
+            application.Build();
+            Console.WriteLine(application.GetLogs());
+
+          
+            Assert.That(new FileInfo("test/output/dll1/header.h").Length > 0, "size is null");
+        }
+
+        [Test]
+        public void BuildExeApplicationHeaderTest()
+        {
+            BuildExeModel model = new BuildExeModel();
+            model.IO = new InputOutput("test/input/1", "test/output/12");
+            model.Template = new TemplateCompilation("test/output/dll1");
+
+            LaunchConfiguration launch = new LaunchConfiguration();
+            launch.AlwaysShowOutput = true;
+            launch.DebugMode = true;
+
+            launch.HeaderCompiler = HeaderCompilerOption.On;
+            launch.CrashLog = new CrashLogOption("test/crash/last-crash.txt");
+
+            BuildEXEApplication application = new BuildEXEApplication(model, launch);
+
+            application.Context.SetPathHandler("test/tools/JavaTransformer.Core.HandleProcessor.exe");
+            application.Build();
+            Console.WriteLine(application.GetLogs());
+
+            Assert.That(new FileInfo("test/output/exe1/header.h").Length > 0, "size is null");
+        }
         #endregion
     }
 }

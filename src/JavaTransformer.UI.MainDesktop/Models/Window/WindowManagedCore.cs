@@ -1,10 +1,12 @@
-﻿using Avalonia;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Input;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace JavaTransformer.UI.MainDesktop.Core
+namespace JavaTransformer.UI.MainDesktop.Models.Core
 {
     public class WindowManagedCore : IDisposable
     {
@@ -36,6 +38,19 @@ namespace JavaTransformer.UI.MainDesktop.Core
 
             _window.ExtendClientAreaToDecorationsHint = true;
             _window.ExtendClientAreaTitleBarHeightHint = -1;
+            _window.WindowState = WindowState.Normal;
+        }
+
+        public void ApplyModernNoBorderStyle()
+        {
+            ThrowIfDisposed();
+
+            _window.SystemDecorations = SystemDecorations.BorderOnly;
+
+            _window.ExtendClientAreaToDecorationsHint = true;
+            _window.ExtendClientAreaTitleBarHeightHint = -1;
+            _window.ExtendClientAreaChromeHints = Avalonia.Platform.ExtendClientAreaChromeHints.NoChrome;
+
             _window.WindowState = WindowState.Normal;
         }
 
@@ -71,6 +86,16 @@ namespace JavaTransformer.UI.MainDesktop.Core
         {
             ThrowIfDisposed();
             PointerPressed += OnDragMoveRequested;
+        }
+
+        public void EnableTopMost()
+        {
+            _window.Topmost = true;
+        }
+
+        public void DisabledTopMost()
+        {
+            _window.Topmost = false;
         }
 
         public void DisableDragMoveForWindow()

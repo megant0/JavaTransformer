@@ -1,0 +1,133 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:JavaTransformer.UI.MainDesktop.ViewModels"
+			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="JavaTransformer.UI.MainDesktop.ProjectPage"
+			 x:DataType="vm:ProjectPageViewModel"
+			 xmlns:AvaloniaEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
+			 >
+	<Design.DataContext>
+		<vm:ProjectPageViewModel/>
+	</Design.DataContext>
+	<Grid
+    Grid.Row="1"
+    Background="#1d1d1d">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="5"/>
+
+			<RowDefinition Height="80"/>
+		</Grid.RowDefinitions>
+
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="350"/>
+			<ColumnDefinition Width="*"/>
+		</Grid.ColumnDefinitions>
+
+		<Grid
+			Grid.Column="1"
+			Grid.Row="0"
+			Margin="1"
+			>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*"/>
+				<RowDefinition Height="20"/>
+			</Grid.RowDefinitions>
+
+			<AvaloniaEdit:TextEditor
+				Margin="25,35,25,0"
+				ShowLineNumbers="True"
+				Background="{DynamicResource TextEditorBackground}"
+				x:Name="_textEditor"/>
+
+			<Border
+				Margin="20,0,0,0"
+				Grid.Row="1"
+				Background="#800080"
+				>
+				<TextBlock
+					Foreground="White"
+					FontSize="12"
+					HorizontalAlignment="Left"
+					VerticalAlignment="Center"
+					Margin="2,1,0,0"
+					Text="Empty"
+					x:Name="_stateText"
+					/>
+
+			</Border>
+		</Grid>
+
+		<Grid
+			Grid.Column="0"
+			Grid.Row="0">
+			<TreeView x:Name="_fileTreeView" ItemsSource="{Binding Roots}"  SelectedItem="{Binding SelectedNode}"
+					  SelectionChanged="TreeView_SelectionChanged"
+					  
+					  
+					  >
+				<TreeView.DataTemplates>
+					<TreeDataTemplate DataType="{x:Type vm:FileSystemNode}"
+                                    ItemsSource="{Binding Children}">
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="{Binding Name}" Margin="5,0"/>
+						</StackPanel>
+
+					</TreeDataTemplate>
+				</TreeView.DataTemplates>
+				<TreeView.ContextMenu>
+					<ContextMenu>
+						<MenuItem Header="Создать файл"/>
+						<MenuItem Header="Создать папку"/>
+						<Separator/>
+						<MenuItem Header="Открыть" />
+						<MenuItem Header="Удалить" Click="MenuItem_Click_1"/>
+						<MenuItem Header="Переименовать" Click="MenuItem_Click"/>
+						<Separator/>
+						<MenuItem Header="Свойства"/>
+					</ContextMenu>
+				</TreeView.ContextMenu>
+			</TreeView>
+		</Grid>
+
+		<GridSplitter
+			Grid.Column="0"
+			Grid.Row="0"
+			Width="1"
+			Margin="0,0,-20,0"
+			Background="#3E3E42"
+			HorizontalAlignment="Right"
+			VerticalAlignment="Stretch"
+			Cursor="SizeWestEast"/>
+
+		<GridSplitter
+			Grid.Column="0"
+			Grid.Row="1"
+			Grid.ColumnSpan="2"
+			Height="5"
+			Background="#3E3E42"
+			HorizontalAlignment="Stretch"
+			VerticalAlignment="Stretch"
+			Cursor="SizeNorthSouth"
+			ShowsPreview="True"/>
+
+
+		<Grid
+			Margin="5"
+			Grid.Column="0"
+			Grid.Row="2"
+			Grid.ColumnSpan="2"
+			Background="#1d1d1d">
+
+			<AvaloniaEdit:TextEditor
+				Margin="10"
+				FontSize="12"
+				x:Name="_consoleTextEditor"
+				>
+
+			</AvaloniaEdit:TextEditor>
+		</Grid>
+	</Grid>
+</UserControl>

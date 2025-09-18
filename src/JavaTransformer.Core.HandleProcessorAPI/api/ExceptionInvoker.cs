@@ -36,7 +36,7 @@ namespace JavaTransformer.Core.HandleProcessorAPI.api
 
         public static bool Invoke<RuntimeException>(Action action) where RuntimeException : Exception
         {
-            return Invoke<RuntimeException>(action);
+            return Invoke<RuntimeException>(action, (e) => { });
         }
 
         public static void Throw(Exception? exception)
